@@ -21,6 +21,20 @@ export default defineComponent({
       isRequired: true,
     },
   },
+  setup(props) {
+    const removeTodo = (index: number) => {
+      if (props.todos) {
+        const newTodos = [
+          ...props.todos.slice(0, index),
+          ...props.todos.slice(index + 1),
+        ];
+
+        props.saveTodos?.(newTodos);
+      }
+    };
+
+    return { removeTodo };
+  },
 });
 </script>
 

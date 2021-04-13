@@ -15,7 +15,6 @@ export default defineComponent({
     todos: {
       type: Array as PropType<Todo[]>,
       isRequired: true,
-      default: () => [],
     },
     saveTodos: {
       type: Function as PropType<(todos: Todo[]) => void>,
@@ -26,7 +25,7 @@ export default defineComponent({
     const newTodo = ref("");
 
     const addTodo = () => {
-      if (newTodo.value) {
+      if (props.todos && newTodo.value) {
         const newTodos = [
           ...props.todos,
           {
