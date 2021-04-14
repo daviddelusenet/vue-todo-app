@@ -9,11 +9,7 @@ import { computed, defineComponent, ref } from "vue";
 import AddTodoForm from "./components/add-todo-form/AddTodoForm.vue";
 import Header from "./components/header/Header.vue";
 import TodoList from "./components/todo-list/TodoList.vue";
-
-export interface Todo {
-  isFinished: boolean;
-  value: string;
-}
+import { TodoProps } from "./components/todo/Todo.vue";
 
 export default defineComponent({
   name: "App",
@@ -23,13 +19,13 @@ export default defineComponent({
     TodoList,
   },
   setup() {
-    const todos = ref<Todo[]>(
+    const todos = ref<TodoProps[]>(
       JSON.parse(localStorage.getItem("todos") || "[]")
     );
 
     const todosLength = computed(() => todos.value.length);
 
-    const saveTodos = (newTodos: Todo[]) => {
+    const saveTodos = (newTodos: TodoProps[]) => {
       todos.value = newTodos;
       localStorage.setItem("todos", JSON.stringify(newTodos));
     };

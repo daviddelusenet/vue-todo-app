@@ -7,17 +7,17 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
-import { Todo } from "../../App.vue";
+import { TodoProps } from "../todo/Todo.vue";
 
 export default defineComponent({
   name: "AddTodoForm",
   props: {
     todos: {
-      type: Array as PropType<Todo[]>,
+      type: Array as PropType<TodoProps[]>,
       required: true,
     },
     saveTodos: {
-      type: Function as PropType<(todos: Todo[]) => void>,
+      type: Function as PropType<(todos: TodoProps[]) => void>,
       required: true,
     },
   },
