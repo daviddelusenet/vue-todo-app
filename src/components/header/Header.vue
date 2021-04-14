@@ -19,7 +19,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 header {
   display: flex;
   align-items: center;

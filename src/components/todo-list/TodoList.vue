@@ -1,8 +1,9 @@
 <template>
   <ul>
     <Todo
-      v-for="({ isFinished, value }, index) in todos"
+      v-for="({ date, isFinished, value }, index) in todos"
       :key="index"
+      :date="date"
       :isFinished="isFinished"
       @remove="removeTodo(index)"
       @toggleIsFinished="toggleTodoIsFinished(index)"

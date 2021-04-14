@@ -29,6 +29,7 @@ export default defineComponent({
         const newTodos = [
           ...props.todos,
           {
+            date: Date.now(),
             isFinished: false,
             value: newTodo.value,
           },

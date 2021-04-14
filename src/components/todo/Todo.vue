@@ -8,9 +8,10 @@
       />
       <font-awesome-icon :icon="['fas', 'check']" />
     </div>
-    <span>
-      <slot></slot>
-    </span>
+    <div class="content">
+      <p class="text"><slot></slot></p>
+      <p class="date">{{ formattedDate }}</p>
+    </div>
     <font-awesome-icon
       class="delete"
       :icon="['fas', 'trash-alt']"
@@ -21,8 +22,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import dayjs from "dayjs";
 
 export interface TodoProps {
+  date: number;
   isFinished: boolean;
   value: string;
 }
@@ -30,6 +33,10 @@ export interface TodoProps {
 export default defineComponent({
   name: "Todo",
   props: {
+    date: {
+      type: Number,
+      required: true,
+    },
     isFinished: {
       type: Boolean,
       required: true,
@@ -43,6 +50,11 @@ export default defineComponent({
       this.$emit("toggleIsFinished");
     },
   },
+  computed: {
+    formattedDate(): string {
+      return dayjs(this.date).format("HH:MM DD/MM/YY");
+    },
+  },
 });
 </script>
 
@@ -51,14 +63,14 @@ li {
   display: flex;
   align-items: center;
   list-style: none;
-  margin: 0 0 4px;
+  margin: 0 0 8px;
 
   &:last-of-type {
     margin: 0;
   }
 
   &.finished {
-    span {
+    .text {
       text-decoration: line-through;
     }
   }
@@ -98,16 +110,28 @@ li {
   }
 }
 
-span {
+.content {
   flex: 1 1 auto;
   padding: 0 12px;
   word-break: break-all;
   hyphens: auto;
+
+  .text {
+    font-size: 16px;
+  }
+
+  .date {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--secondary-color);
+    line-height: 1;
+  }
 }
 
 .delete {
   cursor: pointer;
   color: var(--secondary-color);
+  width: 40px;
 
   &:hover {
     color: var(--primary-button-background-color);
