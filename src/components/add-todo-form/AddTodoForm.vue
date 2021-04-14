@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="addTodo()">
     <input name="todo" placeholder="What needs to be done?" v-model="newTodo" />
-    <button>Add todo</button>
+    <button><font-awesome-icon :icon="['fas', 'plus']" /></button>
   </form>
 </template>
 
@@ -14,22 +14,22 @@ export default defineComponent({
   props: {
     todos: {
       type: Array as PropType<Todo[]>,
-      isRequired: true,
+      required: true,
     },
     saveTodos: {
       type: Function as PropType<(todos: Todo[]) => void>,
-      isRequired: true,
+      required: true,
     },
   },
   setup(props) {
     const newTodo = ref("");
 
     const addTodo = () => {
-      if (props.todos && newTodo.value) {
+      if (newTodo.value) {
         const newTodos = [
           ...props.todos,
           {
-            isDone: false,
+            isFinished: false,
             value: newTodo.value,
           },
         ];
@@ -47,6 +47,36 @@ export default defineComponent({
 
 <style scoped lang="scss">
 form {
-  margin: 40px 0 0;
+  display: flex;
+  align-items: center;
+  padding: 0 20px 20px;
+}
+
+input {
+  border: 1px solid var(--secondary-color);
+  border-right: 0;
+  height: 40px;
+  padding: 0 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+
+  &:focus {
+    border-color: var(--primary-button-background-color);
+  }
+}
+
+button {
+  background-color: var(--primary-button-background-color);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    svg {
+      color: var(--primary-button-color);
+    }
+  }
 }
 </style>
