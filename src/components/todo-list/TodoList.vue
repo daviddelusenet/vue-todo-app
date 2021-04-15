@@ -1,5 +1,5 @@
 <template>
-  <ul>
+  <transition-group name="todo-list" tag="ul">
     <Todo
       v-for="(todo, index) in todos"
       v-bind="todo"
@@ -11,7 +11,7 @@
     >
       {{ value }}
     </Todo>
-  </ul>
+  </transition-group>
 </template>
 
 <script lang="ts">
@@ -70,5 +70,27 @@ export default defineComponent({
 <style scoped lang="scss">
 ul {
   padding: 0 20px 20px;
+
+  li {
+    transition: all 200ms ease-out;
+  }
+}
+
+.todo-list {
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  &-leave-from,
+  &-enter-to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &-leave-to {
+    transform: translate3d(0, -20px, 0);
+  }
 }
 </style>
