@@ -29,6 +29,7 @@ export default defineComponent({
           ...this.$props.todos,
           {
             date: Date.now(),
+            isEdited: false,
             isFinished: false,
             value: this.newTodo,
           },

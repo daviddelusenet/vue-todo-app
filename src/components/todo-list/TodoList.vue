@@ -1,12 +1,13 @@
 <template>
   <ul>
     <Todo
-      v-for="({ date, isFinished, value }, index) in todos"
+      v-for="(todo, index) in todos"
+      v-bind="todo"
+      :index="index"
       :key="index"
-      :date="date"
-      :isFinished="isFinished"
-      @remove="removeTodo(index)"
-      @toggleIsFinished="toggleTodoIsFinished(index)"
+      @remove="removeTodo"
+      @saveEdit="saveEditedTodo"
+      @toggleIsFinished="toggleTodoIsFinished"
     >
       {{ value }}
     </Todo>
@@ -32,6 +33,19 @@ export default defineComponent({
     removeTodo(index: number) {
       const newTodos = [
         ...this.$props.todos.slice(0, index),
+        ...this.$props.todos.slice(index + 1),
+      ];
+
+      this.$emit("saveTodos", newTodos);
+    },
+    saveEditedTodo(value: string, index: number) {
+      const newTodos = [
+        ...this.$props.todos.slice(0, index),
+        {
+          ...this.$props.todos[index],
+          isEditedOn: Date.now(),
+          value,
+        },
         ...this.$props.todos.slice(index + 1),
       ];
 
