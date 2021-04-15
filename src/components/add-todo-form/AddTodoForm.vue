@@ -16,32 +16,29 @@ export default defineComponent({
       type: Array as PropType<TodoProps[]>,
       required: true,
     },
-    saveTodos: {
-      type: Function as PropType<(todos: TodoProps[]) => void>,
-      required: true,
-    },
   },
-  setup(props) {
+  setup() {
     const newTodo = ref("");
 
-    const addTodo = () => {
-      if (newTodo.value) {
+    return { newTodo };
+  },
+  methods: {
+    addTodo() {
+      if (this.newTodo) {
         const newTodos = [
-          ...props.todos,
+          ...this.$props.todos,
           {
             date: Date.now(),
             isFinished: false,
-            value: newTodo.value,
+            value: this.newTodo,
           },
         ];
 
-        newTodo.value = "";
+        this.newTodo = "";
 
-        props.saveTodos?.(newTodos);
+        this.$emit("addTodo", newTodos);
       }
-    };
-
-    return { addTodo, newTodo };
+    },
   },
 });
 </script>

@@ -1,7 +1,7 @@
 <template>
   <Header :todosLength="todosLength" />
-  <AddTodoForm :saveTodos="saveTodos" :todos="todos" />
-  <TodoList :saveTodos="saveTodos" :todos="todos" />
+  <AddTodoForm :todos="todos" @addTodo="saveTodos" />
+  <TodoList :todos="todos" @saveTodos="saveTodos" />
 </template>
 
 <script lang="ts">
@@ -25,12 +25,13 @@ export default defineComponent({
 
     const todosLength = computed(() => todos.value.length);
 
-    const saveTodos = (newTodos: TodoProps[]) => {
-      todos.value = newTodos;
+    return { todos, todosLength };
+  },
+  methods: {
+    saveTodos(newTodos: TodoProps[]) {
+      this.todos = newTodos;
       localStorage.setItem("todos", JSON.stringify(newTodos));
-    };
-
-    return { saveTodos, todos, todosLength };
+    },
   },
 });
 </script>

@@ -27,10 +27,6 @@ export default defineComponent({
       type: Array as PropType<TodoProps[]>,
       required: true,
     },
-    saveTodos: {
-      type: Function as PropType<(todos: TodoProps[]) => void>,
-      required: true,
-    },
   },
   methods: {
     removeTodo(index: number) {
@@ -39,7 +35,7 @@ export default defineComponent({
         ...this.$props.todos.slice(index + 1),
       ];
 
-      this.$props.saveTodos(newTodos);
+      this.$emit("saveTodos", newTodos);
     },
     toggleTodoIsFinished(index: number) {
       const newTodos = [
@@ -51,7 +47,7 @@ export default defineComponent({
         ...this.$props.todos.slice(index + 1),
       ];
 
-      this.$props.saveTodos(newTodos);
+      this.$emit("saveTodos", newTodos);
     },
   },
 });
