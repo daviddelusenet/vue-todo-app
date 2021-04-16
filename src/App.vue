@@ -1,20 +1,28 @@
 <template>
   <Header :todosLength="todosLength" />
-  <AddTodoForm :todos="todos" @addTodo="saveTodos" />
-  <TodoList :todos="todos" @saveTodos="saveTodos" />
+  <AddTodoForm :todos="sortedTodos" @addTodo="saveTodos" />
+  <Filters :sortBy="sortByValue" @onSort="onSort" />
+  <TodoList :sortBy="sortByValue" :todos="sortedTodos" @saveTodos="saveTodos" />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import AddTodoForm from "./components/add-todo-form/AddTodoForm.vue";
 import Header from "./components/header/Header.vue";
+import Filters, { sortByOptions } from "./components/filters/Filters.vue";
 import TodoList from "./components/todo-list/TodoList.vue";
 import { TodoProps } from "./components/todo/Todo.vue";
 
 export default defineComponent({
   name: "App",
+  data: function () {
+    return {
+      sortByValue: sortByOptions[0].value,
+    };
+  },
   components: {
     AddTodoForm,
+    Filters,
     Header,
     TodoList,
   },
@@ -23,14 +31,36 @@ export default defineComponent({
       JSON.parse(localStorage.getItem("todos") || "[]")
     );
 
-    const todosLength = computed(() => todos.value.length);
-
-    return { todos, todosLength };
+    return { todos };
   },
   methods: {
     saveTodos(newTodos: TodoProps[]) {
       this.todos = newTodos;
       localStorage.setItem("todos", JSON.stringify(newTodos));
+    },
+    onSort(value: string) {
+      this.sortByValue = value;
+    },
+  },
+  computed: {
+    sortedTodos(): TodoProps[] {
+      if (this.sortByValue === "alphabetically") {
+        return this.todos.slice(0).sort((a, b) => (a.value > b.value ? 1 : -1));
+      } else if (this.sortByValue === "finished") {
+        return this.todos.slice(0).sort((a, b) => {
+          if (a.isFinished === b.isFinished) {
+            return 0;
+          }
+
+          return a.isFinished ? -1 : 1;
+        });
+      }
+
+      // The todos are already sorted by most-recent by default
+      return this.todos;
+    },
+    todosLength(): number {
+      return this.todos.length;
     },
   },
 });

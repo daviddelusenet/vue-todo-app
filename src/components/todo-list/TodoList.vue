@@ -24,6 +24,10 @@ export default defineComponent({
     Todo,
   },
   props: {
+    sortBy: {
+      type: String,
+      required: true,
+    },
     todos: {
       type: Array as PropType<TodoProps[]>,
       required: true,

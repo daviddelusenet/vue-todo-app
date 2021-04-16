@@ -1,11 +1,7 @@
 <template>
   <li :class="{ finished: isFinished }">
     <div class="checkbox">
-      <input
-        type="checkbox"
-        :checked="isFinished"
-        @click="toggleIsFinished()"
-      />
+      <input type="checkbox" :checked="isFinished" @change="toggleIsFinished" />
       <font-awesome-icon :icon="['fas', 'check']" />
     </div>
     <div class="content" :class="{ 'is-being-edited': isBeingEdited }">
@@ -34,7 +30,6 @@ import dayjs from "dayjs";
 
 export interface TodoProps {
   date: number;
-  index: number;
   isEditedOn?: number;
   isFinished: boolean;
   value: string;

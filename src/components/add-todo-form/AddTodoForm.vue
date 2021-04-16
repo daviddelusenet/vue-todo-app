@@ -25,11 +25,10 @@ export default defineComponent({
   methods: {
     addTodo() {
       if (this.newTodo) {
-        const newTodos = [
+        const newTodos: TodoProps[] = [
           ...this.$props.todos,
           {
             date: Date.now(),
-            isEdited: false,
             isFinished: false,
             value: this.newTodo,
           },
