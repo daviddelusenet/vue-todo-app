@@ -1,10 +1,9 @@
 <template>
   <transition-group name="todo-list" tag="ul">
     <Todo
-      v-for="(todo, index) in todos"
+      v-for="todo in todos"
       v-bind="todo"
-      :index="index"
-      :key="index"
+      :key="todo.id"
       @remove="removeTodo"
       @saveEdit="saveEditedTodo"
       @toggleIsFinished="toggleTodoIsFinished"
@@ -34,7 +33,9 @@ export default defineComponent({
     },
   },
   methods: {
-    removeTodo(index: number) {
+    removeTodo(id: string) {
+      const index = this.getTodoIndex(id);
+
       const newTodos = [
         ...this.$props.todos.slice(0, index),
         ...this.$props.todos.slice(index + 1),
@@ -42,7 +43,9 @@ export default defineComponent({
 
       this.$emit("saveTodos", newTodos);
     },
-    saveEditedTodo(value: string, index: number) {
+    saveEditedTodo(value: string, id: string) {
+      const index = this.getTodoIndex(id);
+
       const newTodos = [
         ...this.$props.todos.slice(0, index),
         {
@@ -55,7 +58,9 @@ export default defineComponent({
 
       this.$emit("saveTodos", newTodos);
     },
-    toggleTodoIsFinished(index: number) {
+    toggleTodoIsFinished(id: string) {
+      const index = this.getTodoIndex(id);
+
       const newTodos = [
         ...this.$props.todos.slice(0, index),
         {
@@ -66,6 +71,9 @@ export default defineComponent({
       ];
 
       this.$emit("saveTodos", newTodos);
+    },
+    getTodoIndex(id: string): number {
+      return this.$props.todos.findIndex((todo) => todo.id === id);
     },
   },
 });

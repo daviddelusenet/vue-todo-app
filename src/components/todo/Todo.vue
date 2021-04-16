@@ -30,6 +30,7 @@ import dayjs from "dayjs";
 
 export interface TodoProps {
   date: number;
+  id: string;
   isEditedOn?: number;
   isFinished: boolean;
   value: string;
@@ -47,8 +48,8 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    index: {
-      type: Number,
+    id: {
+      type: String,
       required: true,
     },
     isEditedOn: {
@@ -72,10 +73,10 @@ export default defineComponent({
   },
   methods: {
     remove() {
-      this.$emit("remove", this.index);
+      this.$emit("remove", this.id);
     },
     toggleIsFinished() {
-      this.$emit("toggleIsFinished", this.index);
+      this.$emit("toggleIsFinished", this.id);
     },
     async startEdit() {
       this.isBeingEdited = true;
@@ -86,7 +87,7 @@ export default defineComponent({
       this.isBeingEdited = false;
     },
     saveEdit(event: { target: HTMLInputElement }) {
-      this.$emit("saveEdit", event.target.value, this.index);
+      this.$emit("saveEdit", event.target.value, this.id);
       this.isBeingEdited = false;
     },
   },

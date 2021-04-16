@@ -8,6 +8,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
 import { TodoProps } from "../todo/Todo.vue";
+import { v4 as uuid } from "uuid";
 
 export default defineComponent({
   name: "AddTodoForm",
@@ -29,6 +30,7 @@ export default defineComponent({
           ...this.$props.todos,
           {
             date: Date.now(),
+            id: uuid(),
             isFinished: false,
             value: this.newTodo,
           },

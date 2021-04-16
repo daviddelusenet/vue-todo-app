@@ -1,6 +1,6 @@
 <template>
   <Header :todosLength="todosLength" />
-  <AddTodoForm :todos="sortedTodos" @addTodo="saveTodos" />
+  <AddTodoForm :todos="todos" @addTodo="saveTodos" />
   <Filters :sortBy="sortByValue" @onSort="onSort" />
   <TodoList :sortBy="sortByValue" :todos="sortedTodos" @saveTodos="saveTodos" />
 </template>
