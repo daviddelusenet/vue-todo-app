@@ -54,9 +54,10 @@ export default defineComponent({
 
           return a.isFinished ? -1 : 1;
         });
+      } else if (this.sortByValue === "most-recent") {
+        return this.todos.slice(0).sort((a, b) => (a.date > b.date ? 1 : -1));
       }
 
-      // The todos are already sorted by most-recent by default
       return this.todos;
     },
     todosLength(): number {
