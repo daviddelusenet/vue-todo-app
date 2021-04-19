@@ -1,7 +1,12 @@
 <template>
   <Header :todosLength="todosLength" />
   <AddTodoForm :todos="todos" @addTodo="saveTodos" />
-  <Filters :sortBy="sortByValue" @onSort="onSort" />
+  <Filters
+    :allTodosAreFinished="allTodosAreFinished"
+    :sortBy="sortByValue"
+    @sort="onSort"
+    @toggleTodosAreFinished="toggleTodosAreFinished"
+  />
   <TodoList :sortBy="sortByValue" :todos="sortedTodos" @saveTodos="saveTodos" />
 </template>
 
@@ -41,6 +46,14 @@ export default defineComponent({
     onSort(value: string) {
       this.sortByValue = value;
     },
+    toggleTodosAreFinished() {
+      this.saveTodos(
+        this.todos.map((todo) => ({
+          ...todo,
+          isFinished: !this.allTodosAreFinished,
+        }))
+      );
+    },
   },
   computed: {
     sortedTodos(): TodoProps[] {
@@ -62,6 +75,9 @@ export default defineComponent({
     },
     todosLength(): number {
       return this.todos.length;
+    },
+    allTodosAreFinished(): boolean {
+      return this.todos.every(({ isFinished }) => isFinished);
     },
   },
 });

@@ -72,10 +72,11 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--primary-button-color);
 
   &:hover {
     svg {
-      color: var(--primary-button-color);
+      color: var(--highlight-color);
     }
   }
 }

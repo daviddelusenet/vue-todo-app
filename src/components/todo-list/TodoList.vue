@@ -8,7 +8,7 @@
       @saveEdit="saveEditedTodo"
       @toggleIsFinished="toggleTodoIsFinished"
     >
-      {{ value }}
+      {{ todo.value }}
     </Todo>
   </transition-group>
 </template>

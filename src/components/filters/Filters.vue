@@ -1,6 +1,5 @@
 <template>
   <div class="filters">
-    <p>Sort by:</p>
     <div class="select-wrapper">
       <select @change="onSort($event)" :value="sortBy">
         <option
@@ -13,6 +12,7 @@
       </select>
       <font-awesome-icon :icon="['fas', 'chevron-down']" />
     </div>
+    <button @click="toggleTodosAreFinished">{{ buttonText }}</button>
   </div>
 </template>
 
@@ -37,6 +37,10 @@ export const sortByOptions: { text: string; value: string }[] = [
 export default defineComponent({
   name: "Filters",
   props: {
+    allTodosAreFinished: {
+      type: Boolean,
+      required: true,
+    },
     sortBy: {
       type: String,
       required: true,
@@ -47,10 +51,18 @@ export default defineComponent({
       options: sortByOptions,
     };
   },
-  emits: ["onSort"],
+  emits: ["sort", "toggleTodosAreFinished"],
   methods: {
     onSort(event: { target: HTMLSelectElement }) {
-      this.$emit("onSort", event.target.value);
+      this.$emit("sort", event.target.value);
+    },
+    toggleTodosAreFinished() {
+      this.$emit("toggleTodosAreFinished");
+    },
+  },
+  computed: {
+    buttonText(): string {
+      return `Mark all as ${this.allTodosAreFinished ? "un" : ""}finished`;
     },
   },
 });
@@ -63,18 +75,22 @@ export default defineComponent({
   padding: 0 20px 20px;
 }
 
-p {
-  margin: 0 8px 0 0;
-}
-
 .select-wrapper {
   position: relative;
+  margin: 0 8px 0 0;
 
   select {
     border: 1px solid var(--secondary-color);
     height: 32px;
     outline: none;
     padding: 0 32px 0 8px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+      border-color: var(--highlight-color);
+    }
 
     &:focus,
     &:active {
@@ -92,6 +108,20 @@ p {
     transform: translate3d(0, -50%, 0);
     right: 8px;
     color: var(--secondary-color);
+    pointer-events: none;
+  }
+}
+
+button {
+  border: 1px solid var(--secondary-color);
+  height: 32px;
+  outline: none;
+  padding: 0 8px;
+  font-size: 14px;
+  margin: 0 0 0 auto;
+
+  &:hover {
+    border-color: var(--highlight-color);
   }
 }
 </style>
